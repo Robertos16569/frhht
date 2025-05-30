@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Купить дрова оптом</title>
+<style>
+  /* Общие стили */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+  }
+
+  /* Контейнер для страниц */
+  .page {
+    display: none;
+    padding: 20px;
+  }
+
+  /* Активная страница */
+  .page.active {
+    display: block;
+  }
+
+  /* Центрирование содержимого */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Заголовки */
+  h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-transform: lowercase; /* чтобы сохранить стиль "купить дрова оптом" */
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+
+  h3 {
+    margin-top: 20px;
+  }
+
+  /* Кнопки */
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    background-color: #444;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #666;
+}
+
+/* Слайдер изображений */
+#slider {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin-top:20px;
+}
+
+/* Каталог деревьев и регионов */
+.catalog-btn, .region-btn {
+    padding:8px 12px;
+}
+
+/* Информация о дереве и регионе */
+#tree-info, #region-info {
+    margin-top:20px;
+}
+
+/* Для блока свободных машин */
+#free-trucks-container {
+    margin-top:10px; 
+}
+
+#free-trucks-img {
+    max-width:100%;
+}
+
+/* Ввод количества упаковок */
+.quantity-input {
+    width:60px;
+}
+
+/* Кнопка возврата домой */
+.back-button {
+   margin-top:20px; 
+}
+</style>
+</head>
+<body>
+
+<!-- Главная страница -->
+<div id="main-page" class="page active">
+<h1>купить дрова оптом</h1>
+<div>
+<button id="btn-shop">Магазин</button>
+<button id="btn-delivery">Доставка</button>
+</div>
+
+<img id="slider" src="" alt="Фотография" />
+
+<p>покупайте лучшие дрова</p>
+<p>+7 777 99-32</p>
+</div>
+
+<!-- Страница магазина -->
+<div id="shop-page" class="page">
+<h2>Магазин</h2>
+<button id="btn-home-from-shop">Вернуться домой</button>
+
+<h3>Добро пожаловать во вкладку магазин</h3>
+
+<!-- Каталог деревьев -->
+<div style="margin-top:20px;">
+<button class="catalog-btn" data-tree="1">Дуб</button>
+<button class="catalog-btn" data-tree="2">Альха</button>
+<button class="catalog-btn" data-tree="3">Ясень</button>
+</div>
+
+<!-- Информация о выбранном дереве -->
+<div id="tree-info"></div>
+
+<!-- Заказ -->
+<div style="margin-top:10px;">
+<a id="order-link" href="" target="_blank"><button>Заказать</button></a>
+</div>
+
+<!-- Возврат на главную -->
+<div style="margin-top:20px;">
+<button id="btn-home-from-shop">Вернуться домой</button>
+</div>
+
+</div>
+
+<!-- Страница доставки -->
+<div id="delivery-page" class="page">
+<h2>Доставка</h2>
+<button id="btn-home-from-delivery">Вернуться домой</button>
+
+<h3>Приветствую тебя во вкладке доставка</h3>
+
+<!-- Каталог регионов -->
+<div style="margin-top:20px;">
+<button class="region-btn" data-region="1">Краснодарский кр.</button>
+<button class="region-btn" data-region="2">Московская область.</button>
+<button class="region-btn" data-region="3">Калининградская область</button>
+</div>
+
+<!-- Информация о регионе -->
+<div id="region-info"></div>
+
+<!-- Свободные машины -->
+<div style="margin-top:20px;">
+<button id="btn-free-trucks">свободные машины</button>
+</div>
+
+<!-- Изображение свободных машин (скрыто по умолчанию) -->
+<div id="free-trucks-container" style="display:none;">
+<img src="" alt="" id="free-trucks-img"/>
+</div>
+
+<!-- Возврат на главную -->
+<div style="margin-top:20px;">
+<button id="btn-home-from-delivery">Вернуться домой</button>
+</div>
+
+</div>
+
+
+<script>
+// Массив фотографий для слайдера
+const images = [
+"https://i.ibb.co/qYSNT39g/1.jpg",
+"https://i.ibb.co/v4Bk0W4B/2.jpg",
+"https://i.ibb.co/7tPD6Mkq/3.jpg"
+];
+
+let currentImageIndex =0;
+
+// Обновление слайдера
+function updateSlider() {
+const slider = document.getElementById('slider');
+slider.src= images[currentImageIndex];
+currentImageIndex= (currentImageIndex +1) % images.length;
+}
+
+// Запуск слайдера
+updateSlider();
+setInterval(updateSlider,2000);
+
+// Навигация по страницам
+const mainPage= document.getElementById('main-page');
+const shopPage= document.getElementById('shop-page');
+const deliveryPage= document.getElementById('delivery-page');
+
+function showPage(page) {
+mainPage.classList.remove('active');
+shopPage.classList.remove('active');
+deliveryPage.classList.remove('active');
+
+page.classList.add('active');
+}
+
+// Кнопки навигации
+document.getElementById('btn-shop').addEventListener('click', ()=>showPage(shopPage));
+document.getElementById('btn-delivery').addEventListener('click', ()=>showPage(deliveryPage));
+document.getElementById('btn-home-from-shop').addEventListener('click', ()=>showPage(mainPage));
+document.getElementById('btn-home-from-delivery').addEventListener('click', ()=>showPage(mainPage));
+
+// Каталог деревьев
+const catalogButtons= document.querySelectorAll('.catalog-btn');
+const treeInfoDiv= document.getElementById('tree-info');
+const orderLink= document.getElementById('order-link');
+
+let selectedTree= null;
+
+catalogButtons.forEach(btn => {
+btn.addEventListener('click', () => {
+const treeType= btn.dataset.tree; // "1", "2", "3"
+selectedTree= treeType;
+
+let pricePerPack=0;
+
+switch(treeType) {
+case '1':
+pricePerPack=190; break; // дуб
+case '2':
+pricePerPack=185; break; // альха
+case '3':
+pricePerPack=200; break; // ясень
+}
+
+treeInfoDiv.innerHTML= `
+<h4>Вы выбрали дерево №${treeType}</h4>
+<p>Цена за одну упаковку ${pricePerPack} руб.</p>
+<label for='quantity'>Количество упаковок:</label>
+<input type='number' id='quantity' min='1' value='1' class='quantity-input'/>
+<p>Общая стоимость: <span id='total-price'>${pricePerPack}</span> руб.</p>`;
+  
+// Обновление стоимости при изменении количества
+const quantityInput= document.getElementById('quantity');
+const totalPriceSpan= document.getElementById('total-price');
+
+let pricePerPackValue= pricePerPack;
+
+function updateTotal() {
+const qty= parseInt(quantityInput.value)||0;
+// Обновляем цену исходя из сохраненного значения pricePerPackValue
+totalPriceSpan.textContent= qty * pricePerPackValue || '0';
+}
+
+quantityInput.addEventListener('input', updateTotal);
+
+// Установка ссылки на заказ
+orderLink.href='https://t.me/durov';
+
+});
+});
+
+// Региональные цены
+const regionButtons= document.querySelectorAll('.region-btn');
+const regionInfoDiv= document.getElementById('region-info');
+
+regionButtons.forEach(btn => {
+btn.addEventListener('click', () => {
+const region= btn.dataset.region; // "1","2","3"
+let infoHtml='';
+switch(region){
+case '1':
+infoHtml=`<p>Цена за 1 км по Краснодарскому кр.: <strong>90 руб.</strong></p>`;
+break;
+case '2':
+infoHtml=`<p>Цена за 1 км по Московской области.: <strong>100 руб.</strong></p>`;
+break;
+case '3':
+infoHtml=`<p>Цена за 1 км по Калининградской области.: <strong>158 руб.</strong></p>`;
+break;
+}
+regionInfoDiv.innerHTML= infoHtml;
+});
+});
+
+// Свободные машины - показать изображение при нажатии
+document.getElementById('btn-free-trucks').addEventListener('click', () => {
+const container= document.getElementById('free-trucks-container');
+const img= document.getElementById('free-trucks-img');
+
+if(container.style.display==='none' || container.style.display==='') {
+// показываем изображение
+img.src='https://i.ibb.co/6RQ8MtF0';
+img.alt='Свободные машины';
+container.style.display='block';
+} else {
+// скрываем изображение
+container.style.display='none';
+}
+});
+</script>
+
+</body>
+</html>
